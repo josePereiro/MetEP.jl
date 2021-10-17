@@ -1,6 +1,7 @@
 using MetEP
 using MetEP.MetLP
 using MetEP.MetNets
+using MetEP.ProgressMeter
 using Test
 
 @testset "MetEP.jl" begin
