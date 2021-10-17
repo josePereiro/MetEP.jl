@@ -1,6 +1,8 @@
 using MetEP
+using MetEP.MetLP
+using MetEP.MetNets
 using Test
 
 @testset "MetEP.jl" begin
-    # Write your tests here.
+    include("maxent_ep_test.jl")
 end
