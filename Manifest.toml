@@ -257,10 +257,10 @@ uuid = "bb7579a6-17cc-4454-bc80-c1b83f10c6c8"
 version = "0.1.4"
 
 [[MetNets]]
-deps = ["MAT", "Serialization", "SparseArrays"]
-git-tree-sha1 = "1e3d079c89175b7af97dbc3914801403d6feb70f"
+deps = ["MAT", "Serialization", "SparseArrays", "Statistics"]
+git-tree-sha1 = "d8a2a2821d68f953a95f21ec8b7d144a0fedd435"
 uuid = "e57bcde5-101c-47b4-bac9-e79e238e37d4"
-version = "0.1.6"
+version = "0.1.7"
 
 [[Missings]]
 deps = ["DataAPI"]

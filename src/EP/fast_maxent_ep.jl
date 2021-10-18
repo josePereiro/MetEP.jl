@@ -1,5 +1,4 @@
-_epout_β0_cache_ = Dict()
-_clear__epout_β0_cache_() = global _epout_β0_cache_ = Dict()
+const _EPOUT_BETA0_CACHE_ = Dict()
 
 """
     Make MaxEnt-EP but applaying MaxEnt starting from a EP solution at beta zero.
@@ -22,9 +21,9 @@ function fast_maxent_ep(model::MetNet, epout_β0::EPOut,
 
     #= v, Σ are the mean vector and covariance matrix of Q,
     the full multivariate Gaussian (in Braunstein et al paper) =#
-    if haskey(_epout_β0_cache_, epout_β0)
-        Σ = _epout_β0_cache_[epout_β0]["Σ"]
-        v = _epout_β0_cache_[epout_β0]["v"]
+    if haskey(_EPOUT_BETA0_CACHE_, epout_β0)
+        Σ = _EPOUT_BETA0_CACHE_[epout_β0]["Σ"]
+        v = _EPOUT_BETA0_CACHE_[epout_β0]["v"]
     else
         S = model.S
         b = model.b
@@ -33,10 +32,10 @@ function fast_maxent_ep(model::MetNet, epout_β0::EPOut,
         Σ = inv(invΣ)
         v = Σ*(alpha*S'*b + D*a)
 
-        _clear__epout_β0_cache_()
-        _epout_β0_cache_[epout_β0] = Dict()
-        _epout_β0_cache_[epout_β0]["Σ"] = Σ
-        _epout_β0_cache_[epout_β0]["v"] = v
+        empty!(_EPOUT_BETA0_CACHE_)
+        _EPOUT_BETA0_CACHE_[epout_β0] = Dict()
+        _EPOUT_BETA0_CACHE_[epout_β0]["Σ"] = Σ
+        _EPOUT_BETA0_CACHE_[epout_β0]["v"] = v
     end
 
     #= From Cossios papar (see README) =#

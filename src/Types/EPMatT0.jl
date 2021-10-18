@@ -20,14 +20,15 @@ function EPMatT0(K::AbstractArray{T,2}, Y::Vector{T},
     Mech, Nech = size(EK)
     length(EY) == Mech || error("vector size incompatible with matrix") 
     # sortperm ci is the inverse permutation that sends me back to the original model permutation
-    return EPMatT0( #=Σd=#  zeros(T,Mech,Mech), 
-                    #=Σi=#  zeros(T,Nech-Mech,Nech-Mech), 
-                    #=G=#   copy(EK[1:Mech,Mech+1:Nech]), 
-                    #=lb=#  lb[usperm],
-                    #=ub=#  ub[usperm],
-                    #=vd=#  zeros(T,Mech),
-                    #=vi=#  zeros(T,Nech-Mech),
-                    #=Y=#   EY,
-                    #=idx=# usperm
-                ) 
+    return EPMatT0( 
+        #=Σd=#  zeros(T,Mech,Mech), 
+        #=Σi=#  zeros(T,Nech-Mech,Nech-Mech), 
+        #=G=#   copy(EK[1:Mech,Mech+1:Nech]), 
+        #=lb=#  lb[usperm],
+        #=ub=#  ub[usperm],
+        #=vd=#  zeros(T,Mech),
+        #=vi=#  zeros(T,Nech-Mech),
+        #=Y=#   EY,
+        #=idx=# usperm
+    ) 
 end

@@ -24,6 +24,8 @@ module MetEP
 
     import MetLP
     import MetLP: fva_preprocess
+
+    # TODO: Add Chemostat HR code
     
     # Types
     include("Types/AbstractEPMat.jl")
@@ -47,8 +49,9 @@ module MetEP
     include("EP/maxent_ep.jl")
     include("EP/newav.jl")
     include("EP/newμs.jl")
-    include("EP/prepare_beta_v.jl")
+    include("EP/prepare_beta_vec.jl")
     include("EP/prepareinput.jl")
+    include("EP/produce_epout.jl")
     include("EP/Q_sigma.jl")
     include("EP/scaleepfield.jl")
     include("EP/status.jl")

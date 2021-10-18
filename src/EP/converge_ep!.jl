@@ -1,3 +1,10 @@
+function _parse_flag(ret::Tuple)
+    length(ret) != 2 && return (false, nothing)
+    e1, e2 = ret
+    return (e1 isa Bool) ? (e1, e2) : (false, nothing)
+end
+_parse_flag(ret) = (false, nothing)
+
 function converge_ep!(epmodel::EPModel{T};
         verbose::Bool=true,  # output verbosity
         damp::Real=0.9,      # damp ∈ (0,1) newfield = damp * oldfield + (1-damp)* newfield
@@ -8,15 +15,10 @@ function converge_ep!(epmodel::EPModel{T};
         iter0 = 1,           # the started iteration count
         drop_epfields = false,  # if the final EPOut object will export the epfields
         # callbacks
-        oniter::Function = (it, epmodel) -> (false, nothing)
+        oniter::Function = (it, epmodel) -> nothing
     ) where {T<:Real}
 
-    # Unpack
-    epfields = epmodel.epfields
-    epmat = epmodel.epmat
-    beta_vec = epmodel.beta_vec
-    alpha = epmodel.alpha
-    stat = epmodel.stat
+    @extract epmodel : epfields epmat beta_vec alpha stat
 
     stat[:converge_init_time] = time()
     epalg = EPAlg(alpha, beta_vec, 
@@ -38,8 +40,8 @@ function converge_ep!(epmodel::EPModel{T};
         max_err = stat[:max_err] = maximum(errs)
 
         # call back
-        ret, val = oniter(iter, epmodel)
-        ret && return val
+        retflag, val = _parse_flag(oniter(iter, epmodel))
+        retflag && return val
 
         # Converged
         max_err < epsconv && (returnstatus = CONVERGED_STATUS; break)
@@ -62,15 +64,6 @@ function converge_ep!(epmodel::EPModel{T};
 
     verbose && finish!(prog)
 
-    #= Scale back μ, s, av, va of epfields and lub, llb and Y =#
-    scaleepfield!(epmodel.scalefact, epfields)
-    μ, σ = epfields.μ, epfields.s
-    av, va = epfields.av, epfields.va
-    if isinf(alpha)
-        sperm = sortperm(epmat.usperm)
-        μ, σ, av, va = μ[sperm], σ[sperm], av[sperm], va[sperm]
-    end
-    
-    sol = drop_epfields ? nothing : epfields
-    return  EPOut(μ, σ, av, va, sol, returnstatus, iter)
+    # return
+    return produce_epout!(epmodel, returnstatus, iter; drop_epfields)
 end
