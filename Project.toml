@@ -1,18 +1,18 @@
 name = "MetEP"
 uuid = "94559648-8665-43eb-95be-b874d653e167"
 authors = ["josePereiro <jose.pereiro.lab@gmail.com> and contributors"]
-version = "0.1.0"
+version = "0.1.1"
 
 [deps]
-Distributions = "31c24e10-a181-5473-b8eb-7969acd0382f"
-ExtractMacro = "f86d3d12-fd5b-522c-99e9-61577282a1e9"
-LinearAlgebra = "37e2e46d-f89d-539d-b4ee-838fcccc9c8e"
-MetLP = "bb7579a6-17cc-4454-bc80-c1b83f10c6c8"
 MetNets = "e57bcde5-101c-47b4-bac9-e79e238e37d4"
-Printf = "de0858da-6303-5e67-8744-51eddeeeb8d7"
-ProgressMeter = "92933f4c-e287-5a05-a399-4b506db050ca"
+LinearAlgebra = "37e2e46d-f89d-539d-b4ee-838fcccc9c8e"
+Distributions = "31c24e10-a181-5473-b8eb-7969acd0382f"
 SparseArrays = "2f01184e-e22b-5df5-ae63-d93ebab69eaf"
 SpecialFunctions = "276daf66-3868-5448-9aa4-cd146d93841b"
+ExtractMacro = "f86d3d12-fd5b-522c-99e9-61577282a1e9"
+Printf = "de0858da-6303-5e67-8744-51eddeeeb8d7"
+ProgressMeter = "92933f4c-e287-5a05-a399-4b506db050ca"
+MetLP = "bb7579a6-17cc-4454-bc80-c1b83f10c6c8"
 
 [compat]
 julia = "1.5"
