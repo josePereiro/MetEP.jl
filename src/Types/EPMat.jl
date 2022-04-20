@@ -13,7 +13,7 @@ function EPMat(S::AbstractArray{T}, b::AbstractArray{T},
     isinf(alpha) && error("For Inf alpha use 'EPMatT0'")
     M, N = size(S)
     αStS = sparse(alpha * S' * S)
-    return EPMat(   
+    return EPMat(
         #= αStS      =# αStS, 
         #= αStS_diag =# diag(αStS), 
         #= αStb      =# alpha * S' * b, 

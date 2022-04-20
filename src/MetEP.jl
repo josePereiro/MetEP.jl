@@ -18,6 +18,7 @@ module MetEP
     import MetNets: MetNet, AbstractMetState
     import ExtractMacro: @extract
     using LinearAlgebra
+    using LinearAlgebra: inv!
     import Printf: @printf
     import SpecialFunctions: erf
     import Distributions: Truncated, Normal, mean, var
@@ -61,5 +62,6 @@ module MetEP
     # Utils
     include("Utils/summary.jl")
     include("Utils/getters.jl")
+    include("Utils/trunc_sample.jl")
 
 end

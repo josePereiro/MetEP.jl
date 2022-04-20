@@ -37,12 +37,12 @@ function EPModel(
     previous computed scalefactor.
     If epfields is fresh, it only will have effect on ub, lb and Y
     =#
-    scaleepfield!(inv(scalefact), epfields, ub, lb, b) # scaling fields in [0,1]
+    scaleepfield!(inv(scalefact), epfields, ub, lb, b) # scaling fields to [0,1]
 
     epmat = (alpha < Inf) ? EPMat(S, b, lb, ub, alpha) : EPMatT0(S, b, lb, ub)
 
     # One iteration of EP
-    updatealg! = alpha == Inf ? eponesweepT0! : eponesweep!
+    updatealg! = isinf(alpha) ? eponesweepT0! : eponesweep!
 
     beta_vec = prepare_beta_vec(epmat, beta_vec)
 

@@ -27,8 +27,25 @@ function EPFields(N::Int, expval, T)
         var[k] = v
     end
 
-    EPFields(av, var, zeros(T,N), ones(T,N), zeros(T,N), ones(T,N), siteflagave, siteflagvar)
+    EPFields(
+        #= av          =# av, 
+        #= va          =# var, 
+        #= a           =# zeros(T,N), 
+        #= d           =# ones(T,N), 
+        #= μ           =# zeros(T,N), 
+        #= s           =# ones(T,N), 
+        #= siteflagave =# siteflagave, 
+        #= siteflagvar =# siteflagvar
+    )
 end
 
-EPFields(N::Int, expval::Nothing, T) = 
-    EPFields(zeros(T,N), zeros(T,N), zeros(T,N), ones(T,N), zeros(T,N), ones(T,N), trues(N), trues(N))
+EPFields(N::Int, ::Nothing, T) = EPFields(
+    #= av          =#  zeros(T,N), 
+    #= va          =#  zeros(T,N), 
+    #= a           =#  zeros(T,N), 
+    #= d           =#  ones(T,N), 
+    #= μ           =#  zeros(T,N), 
+    #= s           =#  ones(T,N), 
+    #= siteflagave =#  trues(N), 
+    #= siteflagvar =#  trues(N)
+)

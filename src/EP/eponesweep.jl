@@ -24,15 +24,15 @@ function eponesweep!(epfields::EPFields{T}, epalg::EPAlg, epmat::EPMat, stat) wh
     errav = errva = errμ = errs = typemin(T)
     for i in eachindex(av)
 
-        # Parameters of the normal part of the tilted
-        newμ,news = newμs(Σ[i,i],a[i],d[i],v[i],lb[i],ub[i],minvar, maxvar)
+        # Parameters of the normal part of the nth tilted
+        newμ, news = newμs(Σ[i,i],a[i],d[i],v[i],lb[i],ub[i],minvar, maxvar)
         errμ = max(errμ, abs(μ[i]-newμ))
         errs = max(errs, abs(s[i]-news))
         μ[i] = newμ
         s[i] = news
 
         # Parameters of the whole tilted (truncated marginals)
-        newave,newva = newav(s[i],μ[i],av[i],va[i],siteflagave[i],siteflagvar[i],lb[i],ub[i],minvar,maxvar)
+        newave, newva = newav(s[i],μ[i],av[i],va[i],siteflagave[i],siteflagvar[i],lb[i],ub[i],minvar,maxvar)
         errav = max(errav,abs(av[i]-newave))
         errva = max(errva,abs(va[i]-newva))
         av[i] = newave
