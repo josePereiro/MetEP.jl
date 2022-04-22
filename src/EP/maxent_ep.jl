@@ -16,8 +16,8 @@ Input (required)
 ----
 - `S`: MxN matrix (either sparse or dense) please note that if you input a dense version, the algorithm is slighlty more efficient. Dense matrices can be create from sparse ones with `Matrix(S)`.
 - `b`: a vector of M intakes/uptakes
-- `lb`: a vector of lengh N of lower bounds.
-- `ub`: a vector of lengh N of upper bounds.
+- `lb`: a vector of length N of lower bounds.
+- `ub`: a vector of length N of upper bounds.
 
 Input (optional arguments).
 ----
@@ -46,13 +46,14 @@ function maxent_ep(
         solution::Union{EPOut{T}, Nothing}=nothing,  # start from a solution
         expval=nothing,                              # fix posterior probability experimental values for std and mean
         iter0 = 0,                                   # the started iteration count
+        drop_epfields = false,                       # if the final EPOut object will export the epfields
         # callbacks
         oniter::Function = (it, epmodel) -> (false, nothing)
     ) where T<:Real
 
     epmodel = EPModel(S, b, lb, ub; alpha, beta_vec, solution, expval)
-    return converge_ep!(epmodel; verbose, damp, epsconv, 
-        maxiter, maxvar, minvar, iter0, oniter
+    epout = converge_ep!(epmodel; verbose, damp, epsconv, 
+        maxiter, maxvar, minvar, iter0, drop_epfields, oniter
     )
 end
 

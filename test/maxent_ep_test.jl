@@ -7,7 +7,7 @@ function run_maxent_ep_test(net, objider; checkall = false)
     objidx = MetNets.rxnindex(net, objider)
 
     # fbaout
-    fbaout = MetLP.fba!(net, objidx)
+    fbaout = MetLP.fba(net, objidx)
     fba_objval = MetNets.av(net, fbaout, objidx)
 
     # maxent ep

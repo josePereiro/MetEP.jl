@@ -1,6 +1,7 @@
 # Code derived from metabolicEP (https://github.com/anna-pa-m/Metabolic-EP)
 
 function eponesweepT0!(epfields::EPFields, epalg::EPAlg, epmatT0::EPMatT0, stat = Dict())
+
     @extract epfields : av va a d μ s siteflagave siteflagvar
     @extract epalg : alpha beta_vec minvar maxvar epsconv damp
     @extract epmatT0 : Σd Σi G lb ub vd vi Y
@@ -28,11 +29,13 @@ function eponesweepT0!(epfields::EPFields, epalg::EPAlg, epmatT0::EPMatT0, stat 
     # All fields in epmat are updated from the epfields of last sweep
     # (?) covariance matrix of independent variables (epmat)
     stat[:elapsed_eponesweep_inv] = @elapsed begin
-        Di = Diagonal(1.0 ./ di)
-        Dd = Diagonal(1.0 ./ dd)
-        Σi = inv(Di + Gt * Dd * G) 
+        Di = Diagonal(inv.(di))
+        Dd = Diagonal(inv.(dd))
+        # Σi = inv(Σᵢ⁻¹)
+        Σᵢ⁻¹ = Gt * Dd * G + Di
+        inplaceinverse!(Σi, Σᵢ⁻¹)
     end
-    # fast_similarity_inv!(Σi, di,  dd, G)
+    # fast_similarity_inv!(Σi, di, dd, G)
     mul!(Σd, G*Σi, Gt) # (?) covariance matrix of dependent variables (epmat)
     # Original ep
     # mul!(vi,Σi, ai ./ di - G'*(ad ./ dd)) # (?) mean vector of independent variables (epmat)
@@ -58,14 +61,14 @@ function eponesweepT0!(epfields::EPFields, epalg::EPAlg, epmatT0::EPMatT0, stat 
         avi[i] = newavw
         vai[i] = newvaw
 
-        newai,newbi = matchmom(μi[i], si[i], avi[i], vai[i], minvar, maxvar)
+        newai,newdi = matchmom(μi[i], si[i], avi[i], vai[i], minvar, maxvar)
         ai[i] = damp * ai[i] + (1.0-damp) * newai # modify a in epfields
-        di[i] = damp * di[i] + (1.0-damp) * newbi # modify d in epfields
+        di[i] = damp * di[i] + (1.0-damp) * newdi # modify d in epfields
     end
 
     for i in eachindex(μd)   # loop  1:M
 
-        newμd,newsd = newμs(Σd[i,i], ad[i], dd[i], vd[i], lb[i], ub[i], minvar, maxvar)
+        newμd, newsd = newμs(Σd[i,i], ad[i], dd[i], vd[i], lb[i], ub[i], minvar, maxvar)
         errμ = max(errμ, abs(μd[i]-newμd))
         errs = max(errs, abs(sd[i]-newsd))
         μd[i] = newμd # modify μ in epfields

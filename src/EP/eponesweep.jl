@@ -10,10 +10,10 @@ function eponesweep!(epfields::EPFields{T}, epalg::EPAlg, epmat::EPMat, stat) wh
     # We rebuild αStS and add D
     # αStS = αStS if diag(αStS) = αStS_diag
     # Σ^-1 = (αStS + D)
-    αStS[diagind(αStS)] = αStS_diag + inv.(d)
-    
+    Σ⁻¹ = αStS[diagind(αStS)] = αStS_diag + inv.(d)
+
     # Σ = inv(Σ^-1)
-    stat[:elapsed_eponesweep_inv] = @elapsed inplaceinverse!(Σ, αStS)
+    stat[:elapsed_eponesweep_inv] = @elapsed inplaceinverse!(Σ, Σ⁻¹)
 
     # αStb = βF'y
     # v¯ = Σ(αStb + Da) (original ep)

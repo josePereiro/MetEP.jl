@@ -21,7 +21,7 @@ module MetEP
     using LinearAlgebra: inv!
     import Printf: @printf
     import SpecialFunctions: erf
-    import Distributions: Truncated, Normal, mean, var
+    import Distributions: Truncated, Normal, mean, var, MvNormal
 
     import MetLP
     import MetLP: fva_preprocess
@@ -58,6 +58,7 @@ module MetEP
     include("EP/status.jl")
     include("EP/toy_maxent_ep.jl")
     include("EP/utils.jl")
+    include("EP/get_join.jl")
 
     # Utils
     include("Utils/summary.jl")

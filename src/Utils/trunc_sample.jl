@@ -1,5 +1,4 @@
 ## ----------------------------------------------------------------------------------
-_ϕ(x, μ, σ) = inv(σ*sqrt(2π))*exp(-((x - μ)^2)/(2σ^2))
 _unbig(x) = round(Float64(x); digits = 15)
 function trunc_sample(μ::Number, σ::Number, lb::Number, ub::Number; xbins = 1000)
     
@@ -12,7 +11,7 @@ function trunc_sample(μ::Number, σ::Number, lb::Number, ub::Number; xbins = 10
         local_max .+ 10.0.^(reverse(log_range))
     ] 
     Txs = [big(x) for x in xs if lb <= x <= ub]
-    Tpdf = _ϕ.(Txs, big(μ), big(σ))
+    Tpdf = ϕ.(Txs, big(μ), big(σ))
     Z = sum(@view(Tpdf[1:end - 1]) .* diff(Txs))
     Tpdf .= Tpdf ./ Z
     _unbig.(Txs), _unbig.(Tpdf)
